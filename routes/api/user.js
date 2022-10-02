@@ -24,6 +24,7 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
+  console.log(req.body, 'body')
   // ' ' holds the collection name
   try {
     const newuser = await user.create(req.body)
@@ -36,10 +37,10 @@ router.post('/', async (req, res) => {
 router.put('/', async (req, res) => {
   // updates the collection
   try {
-    const update = await user.update({
+    const updateU = await user.update({
       _id: req.params.id,
     })
-    res.json(update)
+    res.json(updateU)
   } catch (error) {
     res.json(error)
   }

@@ -52,7 +52,7 @@ userSchema.virtual('friendCount').get(function () {
   return `${this.friends.length}`
 })
 
-const User = model('user', userSchema)
+const user = model('user', userSchema)
 
 // const handleError = (err) => console.error(err)
 
@@ -65,4 +65,4 @@ const User = model('user', userSchema)
 //   (err) => (err ? handleError(err) : console.log('make new document')),
 // )
 
-module.exports = User
+module.exports = user
