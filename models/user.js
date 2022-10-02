@@ -1,55 +1,58 @@
 const { Schema, model } = require('mongoose')
 
-const UserSchema = new mongoose.Schema({
-  // title: {type: String, required: true},
-  // author: {type: String, required: false},
-  // published: String,
-  // stockCount: Number,
-  // price: Number,
-  // inStock: Boolean,
-  // lastAccessed: {type: Date, default: Date.now}
-  userName: {
-    type: String,
-    unique: true,
-    required: 'required for user name',
-    trim: true,
-  },
+const userSchema = new Schema(
+  {
+    // title: {type: String, required: true},
+    // author: {type: String, required: false},
+    // published: String,
+    // stockCount: Number,
+    // price: Number,
+    // inStock: Boolean,
+    // lastAccessed: {type: Date, default: Date.now}
+    userName: {
+      type: String,
+      unique: true,
+      required: 'required for user name',
+      trim: true,
+    },
 
-  email: {
-    type: String,
-    required: 'email is required',
-    unique: true,
-    match: [
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-      'fill with a valid email address',
+    email: {
+      type: String,
+      required: 'email is required',
+      unique: true,
+      match: [
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+        'fill with a valid email address',
+      ],
+    },
+
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'thought',
+      },
+    ],
+
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+      },
     ],
   },
-
-  thoughts: [
-    {
-      tpye: Schema.Types.ObjectId,
-      ref: 'thought',
+  {
+    toJSON: {
+      virtuals: true,
     },
-  ],
-
-  friends: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'user',
-    },
-  ],
-
-  toJSON: {
-    virtuals: true,
+    id: false,
   },
-  id: false,
-})
+)
 
-UserSchema = virtual('friendCount').get(function () {
+userSchema.virtual('friendCount').get(function () {
   return `${this.friends.length}`
 })
 
-const User = model('user', UserSchema)
+const User = model('user', userSchema)
 
 // const handleError = (err) => console.error(err)
 
@@ -57,8 +60,9 @@ const User = model('user', UserSchema)
 //   {
 //     name: '',
 //     email: '',
+//     thought:[],
 //   },
 //   (err) => (err ? handleError(err) : console.log('make new document')),
 // )
 
-model.exports = User
+module.exports = User

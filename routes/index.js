@@ -1,10 +1,12 @@
 const router = require('express').Router()
-const apiRoutes = require('./api')
+const thought = require('./api/thought')
+const user = require('./api/user')
 
-router.use('/api', apiRoutes)
+router.use('/thoughts', thought)
+router.use('/users', user)
 
 router.use((req, res) => {
   return res.send('working it out for routes')
 })
 
-model.exports = router
+module.exports = router

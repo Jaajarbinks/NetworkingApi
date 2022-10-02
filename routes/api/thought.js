@@ -1,17 +1,17 @@
-const router = require('express').router()
-const thought = require('../api')
+const router = require('express').Router()
+const thought = require('../../models')
 
-app.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
   // name of collection goes in ' '
   try {
     const allThoughts = await thought.find()
     res.json(allThoughts)
   } catch (err) {
-    res.json(results)
+    res.json(err)
   }
 })
 
-app.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   // name of collection goes in ' '
   try {
     const oneThought = await thought.findOne({
@@ -19,11 +19,11 @@ app.get('/:id', async (req, res) => {
     })
     res.json(oneThought)
   } catch (err) {
-    res.json(results)
+    res.json(err)
   }
 })
 
-app.post('/', async (req, res) => {
+router.post('/', async (req, res) => {
   // ' ' holds the collection name
   try {
     const newThought = await thought.create(req.body)
@@ -44,7 +44,7 @@ app.post('/', async (req, res) => {
 //     })
 // })
 
-app.put('/', async (req, res) => {
+router.put('/', async (req, res) => {
   // updates the collection
   try {
     const update = await thought.update({
@@ -56,7 +56,7 @@ app.put('/', async (req, res) => {
   }
 })
 
-app.delete('/though/:id', async (req, res) => {
+router.delete('/though/:id', async (req, res) => {
   try {
     const deleteT = await thought.delete({
       _id: req.params.id,
@@ -67,4 +67,4 @@ app.delete('/though/:id', async (req, res) => {
   }
 })
 
-model.exports = router
+module.exports = router
