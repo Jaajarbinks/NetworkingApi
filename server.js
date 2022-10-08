@@ -4,16 +4,17 @@ const db = require('./config/connection')
 const routes = require('./routes')
 const mongodb = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectId
+// const api = require('./contrrollers')
 
-const app = express()
 const PORT = process.env.PORT || 3001
-
-app.use('/api', routes)
+const app = express()
+// app.use('/api', api)
 
 const connectionStringURI = 'mongodb://127.0.0.1:27017/NetworkingApi'
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use('/api', routes)
 
 // mongoose.connect('mongodb://127.0.0.1:27017/NetworkingApi', {
 //   useNewUrlParser: true,

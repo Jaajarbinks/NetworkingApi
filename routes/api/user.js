@@ -24,33 +24,33 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  console.log(req.body, 'body')
+  // console.log(req.body, 'body')
   // ' ' holds the collection name
   try {
     const newuser = await user.create(req.body)
     res.json(newuser)
   } catch (err) {
+    console.log('there is an error creating', err)
     res.json(err)
   }
 })
 
-router.put('/', async (req, res) => {
-  // updates the collection
-  try {
-    const updateU = await user.update({
-      _id: req.params.id,
-    })
-    res.json(updateU)
-  } catch (error) {
-    res.json(error)
-  }
-})
+// router.put('/', async (req, res) => {
+//   // updates the collection
+//   try {
+//     const updateuser = await user.update({
+//       _id: req.params.id,
+//     })
+//     res.json(updateuser)
+//   } catch (error) {
+//     res.json(error)
+//   }
+// })
 
-router.delete('/user/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
+  console.log(req.params.id, 'id')
   try {
-    const deleteU = await user.delete({
-      _id: req.params.id,
-    })
+    const deleteU = await user.findByIdAndRemove(req.params.id)
     res.json(deleteU)
   } catch (error) {
     res.json(error)

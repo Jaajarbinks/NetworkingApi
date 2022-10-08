@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const thought = require('../../models')
+const { thought, user } = require('../../models')
 
 router.get('/', async (req, res) => {
   // name of collection goes in ' '
@@ -24,9 +24,22 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
+  try {
+    const newthought = await thought.create(req.body)
+    res.json(newthought)
+  } catch (err) {
+    console.log('there is an error creating', err)
+    res.json(err)
+  }
+})
+
+router.post('/:id', async (req, res) => {
   // ' ' holds the collection name
   try {
-    const newThought = await thought.create(req.body)
+    const newThought = await user.findByIdAndUpdate({
+      thought: req.params.id,
+    })
+    newThought.save()
     res.json(newThought)
   } catch (err) {
     res.json(err)
@@ -56,12 +69,11 @@ router.put('/', async (req, res) => {
   }
 })
 
-router.delete('/though/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
+  console.log(req.params.id, 'ObjectId')
   try {
-    const deleteT = await thought.delete({
-      _id: req.params.id,
-    })
-    res.json(deleteT)
+    const deletet = await user.findByIdAndRemove(req.params.ObjectId)
+    res.json(deletet)
   } catch (error) {
     res.json(error)
   }

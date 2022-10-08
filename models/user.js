@@ -11,15 +11,15 @@ const userSchema = new Schema(
     // lastAccessed: {type: Date, default: Date.now}
     userName: {
       type: String,
-      unique: true,
-      required: 'required for user name',
+      // unique: true,
+      required: true,
       trim: true,
     },
 
     email: {
       type: String,
-      required: 'email is required',
-      unique: true,
+      required: true,
+      // unique: true,
       match: [
         /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
         'fill with a valid email address',
