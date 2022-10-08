@@ -35,17 +35,19 @@ router.post('/', async (req, res) => {
   }
 })
 
-// router.put('/', async (req, res) => {
-//   // updates the collection
-//   try {
-//     const updateuser = await user.update({
-//       _id: req.params.id,
-//     })
-//     res.json(updateuser)
-//   } catch (error) {
-//     res.json(error)
-//   }
-// })
+router.put('/:id', async (req, res) => {
+  // updates the collection
+  try {
+    const updateuser = await user.findByIdAndUpdate(
+      req.params.id,
+      { userName: req.body.userName, email: req.body.email },
+      { new: true },
+    )
+    res.json(updateuser)
+  } catch (error) {
+    res.json(error)
+  }
+})
 
 router.delete('/:id', async (req, res) => {
   console.log(req.params.id, 'id')

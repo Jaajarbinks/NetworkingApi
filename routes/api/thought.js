@@ -34,13 +34,18 @@ router.post('/', async (req, res) => {
 })
 
 router.post('/:id', async (req, res) => {
+  const newthought = await thought.create(req.body)
+  // console.log(newthought._id.valueOf())
   // ' ' holds the collection name
+  console.log(newthought._id.valueOf())
   try {
-    const newThought = await user.findByIdAndUpdate({
-      thought: req.params.id,
-    })
-    newThought.save()
-    res.json(newThought)
+    const userupdate = await user.findOneAndUpdate(
+      { _id: req.params.id },
+      { $push: { thoughts: newthought._id.valueOf() } },
+      { new: true },
+    )
+    console.log(userupdate)
+    res.json(userupdate)
   } catch (err) {
     res.json(err)
   }
@@ -60,20 +65,30 @@ router.post('/:id', async (req, res) => {
 router.put('/', async (req, res) => {
   // updates the collection
   try {
-    const update = await thought.update({
+    const updatet = await thought.update({
       _id: req.params.id,
     })
-    res.json(update)
+    res.json(updatet)
   } catch (error) {
     res.json(error)
   }
 })
 
+// router.delete('/:id', async (req, res) => {
+//   console.log(req.params.objectId, 'ObjectId')
+//   console.log(objectId)
+//   try {
+//     const deletet = await user.findByIdAndRemove(req.params.ObjectId)
+//     res.json(deletet)
+//   } catch (error) {
+//     res.json(error)
+//   }
+// })
 router.delete('/:id', async (req, res) => {
-  console.log(req.params.id, 'ObjectId')
+  console.log(req.params.id, 'id')
   try {
-    const deletet = await user.findByIdAndRemove(req.params.ObjectId)
-    res.json(deletet)
+    const deleteU = await thought.findByIdAndRemove(req.params.id)
+    res.json(deleteU)
   } catch (error) {
     res.json(error)
   }
